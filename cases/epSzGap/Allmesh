@@ -1,0 +1,48 @@
+#!/bin/bash
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# Convert the 0 directory into 0.org
+#mv 0 0.org
+
+# Run blockMesh
+blockMesh
+
+# Run snappyHexMesh
+snappyHexMesh -overwrite
+extrudeMesh
+
+setFields
+
+topoSet -dict system/topoSetDictRegion
+
+# Print cell stats
+rm -f log.checkMesh
+runApplication checkMesh
+
+# Run topoSet and Split regions
+splitMeshRegions -cellZones -overwrite
+
+# Make the a (the air) into the polyMesh
+rm -vr ./constant/polyMesh
+mv -v ./constant/air/polyMesh ./constant/polyMesh
+rm -vr ./constant/air
+rm -vr ./system/air
+sed -i 's|constant/air/polyMesh|constant/polyMesh|g' ./constant/polyMesh/boundary
+sed -i 's/air/region0/g' ./constant/polyMesh/boundary
+sed -i 's/air/region0/g' ./constant/dielectric/polyMesh/boundary
+
+# Replace 0 directory contents with 0.org
+rm -v -r 0
+cp -v -r 0.org 0
+
+touch case.foam
+# Output message
+echo
+echo Case created
+
+
+
+#------------------------------------------------------------------------------

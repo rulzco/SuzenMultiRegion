@@ -1,0 +1,71 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  8
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       polyBoundaryMesh;
+    location    "constant/polyMesh";
+    object      boundary;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+7
+(
+    top
+    {
+        type            patch;
+        nFaces          50;
+        startFace       61538;
+    }
+    inlet
+    {
+        type            patch;
+        nFaces          36;
+        startFace       61588;
+    }
+    outlet
+    {
+        type            patch;
+        nFaces          37;
+        startFace       61624;
+    }
+    front
+    {
+        type            empty;
+        inGroups        List<word> 1(empty);
+        nFaces          30787;
+        startFace       61661;
+    }
+    back
+    {
+        type            empty;
+        inGroups        List<word> 1(empty);
+        nFaces          30787;
+        startFace       92448;
+    }
+    electrodes_exposed
+    {
+        type            wall;
+        inGroups        List<word> 1(wall);
+        nFaces          543;
+        startFace       123235;
+    }
+    region0_to_dielectric
+    {
+        type            mappedWall;
+        inGroups        List<word> 1(wall);
+        nFaces          674;
+        startFace       123778;
+        sampleMode      nearestPatchFace;
+        sampleRegion    dielectric;
+        samplePatch     dielectric_to_region0;
+    }
+)
+
+// ************************************************************************* //
