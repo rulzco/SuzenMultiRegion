@@ -9,7 +9,7 @@
       + turbulence->divDevSigma(U)
      ==
         fvOptions(U)
-	  + bForce
+	  +	(bForce/rho)
     );
     fvVectorMatrix& UEqn = tUEqn.ref();
 

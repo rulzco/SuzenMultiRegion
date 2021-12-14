@@ -151,7 +151,7 @@ int main(int argc, char *argv[])
             IOobject::NO_READ,
             IOobject::AUTO_WRITE
         ),
-        rhoCMax * epMax * rhoC * EATot / rho
+		rhoCMax * epMax * rhoC * EATot
     );
       
     runTime++;
